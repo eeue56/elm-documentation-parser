@@ -1,0 +1,40 @@
+{
+  "name": "elm-documentation-parser",
+  "version": "0.0.1-alpha.1",
+  "description": "Parse documentation from an Elm folder",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "node_modules/.bin/tsfmt -r && node_modules/.bin/tslint --fix -p . && node_modules/.bin/tsc",
+    "prepublishOnly": "node_modules/.bin/tsc -p ./ --outDir dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eeue56/elm-documentation-parser.git"
+  },
+  "keywords": [
+    "elm",
+    "documentation",
+    "parser"
+  ],
+  "author": "eeue56",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/eeue56/elm-documentation-parser/issues"
+  },
+  "homepage": "https://github.com/eeue56/elm-documentation-parser#readme",
+  "devDependencies": {
+    "@types/es6-promise": "0.0.32",
+    "@types/node": "^8.0.17",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.2",
+    "typescript-formatter": "^5.2.0"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^5.0.0",
+    "@types/glob": "^5.0.35",
+    "es6-promise": "^4.1.1",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2"
+  }
+}
