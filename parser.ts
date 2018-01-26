@@ -18,9 +18,12 @@ export interface Module {
 
 function parseValue(str: string): ExposedValue {
     const pieces = str.split("-}");
-    const comment = pieces[0].split("{-|")[1].trim();
-    const name = pieces[1].split(":")[0].trim();
-    const type = pieces[1].split(":")[1].trim();
+
+    if (pieces.length < 2) return null;
+
+    const comment = (pieces[0].split("{-|")[1] || '').trim();
+    const name = (pieces[1].split(":")[0] || '').trim();
+    const type = (pieces[1].split(":")[1] || '').trim();
 
     if (name.length === 0) { return null; }
 
@@ -35,6 +38,8 @@ export function readDocumentationForFile(filePath: string): Promise<Module> {
     return fs.readFile(filePath).then((contents) => {
         const strContents = contents.toString();
         const res = strContents.match(/{-\|(\n|.)+?-}\n(.+)?\n/gm);
+
+        if (!res) return null;
 
         const values = res.map(parseValue).filter((x) => x != null);
         return {
@@ -58,7 +63,7 @@ export function readDocumentation(pathToElmPackageJson: string): Promise<Module[
             return new Promise((resolve, reject) => {
                 glob("**/*.elm", { cwd: ourPath, absolute: true }, (err, files) => {
                     if (err) { return reject(err); }
-                    return resolve(files);
+                    return resolve(files.filter((filePath) => filePath.indexOf("elm-stuff") === -1));
                 });
             });
         });
@@ -71,7 +76,9 @@ export function readDocumentation(pathToElmPackageJson: string): Promise<Module[
                 return files.map(readDocumentationForFile);
             })
             .then((promises) => {
-                return Promise.all(promises).then((stuff) => [].concat.apply([], stuff));
+                return Promise.all(promises).then((stuff) => {
+                    return [].concat.apply([], stuff.filter((x) => x != null))
+                });
             });
     });
 }

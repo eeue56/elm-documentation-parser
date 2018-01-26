@@ -1,6 +1,6 @@
 {
   "name": "elm-documentation-parser",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.4",
   "description": "Parse documentation from an Elm folder",
   "main": "./dist/parser.js",
   "types": "./dist/parser.d.ts",
